@@ -1,0 +1,24 @@
+dist: bionic
+
+env:
+  global:
+    - IMAGE_NAME=pkskubeflow/kubectl-delivery-arm64:lastest
+    - CODE_TAG=master
+
+arch:
+  - arm64
+
+services:
+  - docker
+
+before_install:
+  - git clone -b ${CODE_TAG} --depth 1 https://github.com/kubeflow/mpi-operator.git
+  - git clone https://github.com/kubeflow-pk/build-kubectl-delivery.git
+
+script:
+
+  - mv kubectl-delivery/delivery.Dockerfile kubectl-delivery/
+  - cd mpi-operator
+  - docker build -t ${IMAGE_NAME} -f delivery.Dockerfile  .
+  - docker login -u ${DOCKER_USER} -p ${DOCKER_PWD}
+  - docker push ${IMAGE_NAME}
