@@ -17,7 +17,7 @@ before_install:
 
 script:
 
-  - mv build-kubectl-delivery/delivery.Dockerfile kubectl-delivery/
+  - mv build-kubectl-delivery/delivery.Dockerfile mpi-operator/
   - cd mpi-operator
   - docker build -t ${IMAGE_NAME} -f delivery.Dockerfile  .
   - docker login -u ${DOCKER_USER} -p ${DOCKER_PWD}
